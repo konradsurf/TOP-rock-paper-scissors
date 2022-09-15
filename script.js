@@ -1,18 +1,23 @@
+// create variable for player's choice playerSelection
 let player1 = 'scissors';
 let player2 = 'rock';
 
-console.log(playRound(player1, player2));
 
-// 
-
-// create variable for player's choice playerSelection
-// create variable for computer's choice computerSelection
 // prompt player for their choice
+player1 = prompt("Please enter rock, paper or scissors:");
 // convert player's input into all lowercase to ensure match
+// this could be combined in line above where we prompt user for their choice
+player1 = player1.toLowerCase();
 // get computer's choice by calling function and initialize computerSelection
 
 
+// output who won to console by calling playRound function
+console.log(playRound(player1, player2));
+
+
 // function that takes choices and returns a string indicating who won
+// could also have nested these - player selection, then an if statement within it with the 
+// three choices that computer could pick
 function playRound(playerSelection, computerSelection) {
   if (playerSelection == 'rock' && computerSelection == 'scissors') {
     return "You win!";

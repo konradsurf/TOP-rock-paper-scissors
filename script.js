@@ -9,15 +9,22 @@ player1 = prompt("Please enter rock, paper or scissors:");
 // this could be combined in line above where we prompt user for their choice
 player1 = player1.toLowerCase();
 
-// get computer's choice by calling function and initialize computerSelection
+// output who won to console by calling playRound function
+console.log(playRound(player1, getComputerChoice()));
+
+
+
+
+
+// function to get computer's choiceand initialize computerSelection
+function getComputerChoice() {
   // create array of choices
   const choices = ['rock', 'paper', 'scissors'];
-  // assign random array element to computer's choice (player2)
-  player2 = choices[Math.floor(Math.random() * choices.length)];
-  console.log(player2);
-
-// output who won to console by calling playRound function
-console.log(playRound(player1, player2));
+  // assign random array element to computer's choice
+  computerChoice = choices[Math.floor(Math.random() * choices.length)];
+  console.log(`computer's choice was: ${computerChoice}`);
+  return(computerChoice);
+}
 
 
 // function that takes choices and returns a string indicating who won

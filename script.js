@@ -3,7 +3,7 @@
 game();
 
 
-// function to play 5 round game
+// function to play game
 function game() {
   // create variables for player and computer choice
   let player1;
@@ -12,16 +12,13 @@ function game() {
   let playerScore = 0;
   let computerScore = 0;
 
-  // loop through game five times
-  for (let i = 0; i < 5; i++) {
-    // prompt player for their choice
-    player1 = prompt("Please enter rock, paper or scissors:");
-    // convert player's input into all lowercase to ensure match
-    // this could be combined in line above where we prompt user for their choice
-    player1 = player1.toLowerCase();
-    // get the computer's choice
-    player2 = getComputerChoice();
-    // output who won to console by calling playRound function
+  // create event listener for buttons
+  let btns = document.querySelectorAll('button');
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => { 
+    player1 = btn.id;
+    console.log(player1);
+    // determine, increment score and output who won to console by calling playRound function
     if (playRound(player1, player2) == 'win') {
       // display winning message
       console.log("You win this round!")
@@ -38,7 +35,16 @@ function game() {
       console.log("You tied this round") 
       console.log(`Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `);
     }
-  }
+    });
+  });
+  
+  console.log(player1);
+  // get the computer's choice
+  player2 = getComputerChoice();
+
+
+  
+  
   // output result of the entire five rounds to console
   if (playerScore > computerScore) {
     console.log(`You won the game. Score was ${playerScore} to ${computerScore}`);
@@ -51,10 +57,13 @@ function game() {
   }
 } 
 
-// function to get computer's choiceand initialize computerSelection
+
+
+// function to get computer's choice and initialize computerSelection
 function getComputerChoice() {
   // create array of choices
   const choices = ['rock', 'paper', 'scissors'];
+
   // assign random array element to computer's choice
   computerChoice = choices[Math.floor(Math.random() * choices.length)];
   console.log(`computer's choice was: ${computerChoice}`);

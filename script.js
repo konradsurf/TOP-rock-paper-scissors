@@ -1,63 +1,90 @@
+// create variables for player and computer choice
+let player1 = 0;
+let player2 = 0;
+// initialize scores
+let playerScore = 0;
+let computerScore = 0;
 
-// call function to play 5 rounds
-game();
+//create event listener to start new game, call game function once button pressed
+let startGameBtn = document.querySelector('#newGame');
+// console.log(startGameBtn);
+startGameBtn.addEventListener('click', () => playGame());
+let messageDiv = document.querySelector('#messages');
+messageDiv.textContent = 'Press button to start a five round game';
 
+// create event listener for buttons
+function playGame() {
+  messageDiv.textContent = 'Make your choice:';
+  
+  console.log('playgame function has been called');
+  let node = document.getElementById('gameControls');
+  console.log(node);
+  node.removeChild(node.firstElementChild); //removes startnewgame btn
+ 
+  const rpsParent = document.querySelector('#gameControls'); 
+  const  rockBtn = document.createElement('button');
+  rockBtn.setAttribute('id', 'rock');
+  rockBtn.setAttribute('class', 'RPS');
+  rockBtn.textContent = 'Rock';
+  rpsParent.appendChild(rockBtn);
+  
+  const  paperBtn = document.createElement('button');
+  paperBtn.setAttribute('id', 'paper');
+  paperBtn.setAttribute('class', 'RPS');
+  paperBtn.textContent = 'Paper';
+  rpsParent.appendChild(paperBtn);
 
-// function to play game
-function game() {
-  // create variables for player and computer choice
-  let player1;
-  let player2;
-  // initialize scores
-  let playerScore = 0;
-  let computerScore = 0;
-
-  // create event listener for buttons
-  let btns = document.querySelectorAll('button');
+  const  scissorsBtn = document.createElement('button');
+  scissorsBtn.setAttribute('id', 'scissors');
+  scissorsBtn.setAttribute('class', 'RPS');
+  scissorsBtn.textContent = 'Scissors';
+  rpsParent.appendChild(scissorsBtn);
+  let btns = document.querySelectorAll('button.RPS');
   btns.forEach((btn) => {
     btn.addEventListener('click', () => { 
-    player1 = btn.id;
-    console.log(player1);
-    // determine, increment score and output who won to console by calling playRound function
-    if (playRound(player1, player2) == 'win') {
-      // display winning message
-      console.log("You win this round!")
-      // increment player's score
-      playerScore += 1;
-      console.log(`Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `);
-    }
-    else if (playRound(player1, player2) == 'lose') {
-      console.log("You lose this round :(")
-      computerScore += 1; 
-      console.log(`Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `);
-    }
-    else if (playRound(player1, player2) == 'tie') {
-      console.log("You tied this round") 
-      console.log(`Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `);
-    }
+      player1 = btn.id;
+      console.log(`user choice is: ${player1}`);
+      player2 = getComputerChoice();
+      console.log(`computer's choice is: ${player2}`);
+      determineRoundWinner(player1, player2);
+      if (playerScore >= 5 | computerScore >= 5) {
+        determineGameWinner();
+      }
     });
   });
-  
-  console.log(player1);
-  // get the computer's choice
-  player2 = getComputerChoice();
+}
 
 
+
+
+// output result of the entire five rounds to console
+function determineGameWinner() {
   
-  
-  // output result of the entire five rounds to console
   if (playerScore > computerScore) {
-    console.log(`You won the game. Score was ${playerScore} to ${computerScore}`);
+    messageDiv.textContent = `You won the game. Score was ${playerScore} to ${computerScore}`;
   }
   else if (playerScore < computerScore) {
-    console.log(`You lost the game. Score was ${playerScore} to ${computerScore}`);
+    messageDiv.textContent = `You lost the game. Score was ${playerScore} to ${computerScore}`;
   }
-  else if (playerScore == computerScore) {
-    console.log(`Tie game. Score was ${playerScore} to ${computerScore}`);
-  }
-} 
+  resetBtns();
+  resetGame();
+}
 
+function resetBtns() {
+  node = document.querySelector('#gameControls');
+  rockBtn = document.querySelector('#rock');
+  node.removeChild(rockBtn);
+  paperBtn = document.querySelector('#paper');
+  node.removeChild(paperBtn);
+  scissorsBtn = document.querySelector('#scissors')
+  node.removeChild(scissorsBtn);
+  node.appendChild(startGameBtn);
+}
 
+function resetGame() {
+  playerScore = 0;
+  computerScore = 0;
+}
 
 // function to get computer's choice and initialize computerSelection
 function getComputerChoice() {
@@ -66,10 +93,24 @@ function getComputerChoice() {
 
   // assign random array element to computer's choice
   computerChoice = choices[Math.floor(Math.random() * choices.length)];
-  console.log(`computer's choice was: ${computerChoice}`);
   return(computerChoice);
 }
 
+function determineRoundWinner() {
+  // determine, increment score and output who won to console by calling playRound function
+  if (playRound(player1, player2) == 'win') {
+    // increment player's score
+    playerScore += 1;
+    messageDiv.textContent = `You win this Round. Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `;
+  }
+  else if (playRound(player1, player2) == 'lose') {
+    computerScore += 1; 
+    messageDiv.textContent = `You lose this round. Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `;
+  }
+  else if (playRound(player1, player2) == 'tie') {
+    messageDiv.textContent = `You tied this round. Player score is: ${playerScore} ,  Computer's score is: ${computerScore} `;
+  }
+}  
 
 // function that takes choices and returns a string indicating if player won or lost
 // could also have nested these - player selection, then an if statement within it with the 
